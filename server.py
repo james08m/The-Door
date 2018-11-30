@@ -37,6 +37,7 @@ class Server(threading.Thread):
     def close(self):
         print "\rClosing server.."
         self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
+        self.servo.close()                          # Properly close the servo motor instance
 
         for client in self.clients:                 # Kill clients threads
             client.close()
