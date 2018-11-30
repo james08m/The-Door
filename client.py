@@ -20,6 +20,7 @@ class Client(threading.Thread):
         self.ip = addr[0]
         self.port = addr[1]
         self.alive = True
+        self.auth = "PENDING"
         self.socket = socket
         self.servo = servo
         self.badquery = 0
@@ -52,8 +53,10 @@ class Client(threading.Thread):
                 else:
                     print self.info() + " | BAD QUERY " # After too much bad queries the connection is stopped
                     self.badquery += 1
+                    self.socket.send("IGN")
                     
                     if(self.badquery == BAD_QUERY_LIMIT):
+                        self.socket.send("DISCONNECT")
                         self.close()
                     
             except socket.error as e: # When Socket exception is raised
