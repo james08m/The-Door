@@ -7,58 +7,61 @@ import time
 from servo import *
 from client import *
 
-BUFFER_SIZE = 50  # Normally is 1024, but we want a fast response time
+BUFFER_SIZE     = 50                # Usually 1024, but we want a fast response time
+SERVER_IP       = '192.168.10.200'  # IP statically assigned to my Raspberry Pi on the LAN
+SERVER_PORT     = 5340
 
-################
-#!#  Server  #!#
-################
+##################################
+#!#  Server : threading.Thread #!#
+##################################
 
 class Server(threading.Thread):
+
+    # Properly initialize server by initializing
+    # the parent thread and by initializing
+    # the server socket with the right information
     def __init__(self):
 
-        # Initialise attributs
         threading.Thread.__init__(self)
         self.alive = True
-        self.ip = '192.168.10.200'
-        self.port = 5340
+        self.ip = SERVER_IP
+        self.port = SERVER_PORT
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.clients = []
+        self.clients = []                           # Initialize clients List
         self.servo = Servo()
 
-        # Binding socket and start lestening
-        self.server.bind((self.ip, self.port))
-        self.server.listen(1)
+        self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
+        self.server.listen(1)                       # Socket start listening
 
-    # Close server safely
+    # Safely close the server
     def close(self):
         print "\rClosing server.."
-        
-        # Make sure servo motor is in idle position
-        self.servo.idle()
-        
-        # Kill clients threads
-        for client in self.clients:
+        self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
+
+        for client in self.clients:                 # Kill clients threads
             client.close()
 
-        # Wait 2sec to make sure clients thread are closed
-        time.sleep(2)
+        time.sleep(2)                               # Wait 2sec to make sure clients thread are closed
         self.server.close()
         print "Server closed"
 
-    # Server main loop and starting method
+    # Redefinition of the run() method from
+    # the parent class "threading.Thread".
+    # This method is actually the server's
+    # thread life cycle
     def run(self):
-        print "Starting server"
+        print "Server started"
+        print "Waiting for connections.."
         try:
-            client_id = 0
+            client_id = 0                           # Next client ID to be assign
             while self.alive:
 
-                print "Waiting for a connection.."
-                soc, addr = self.server.accept()
+                soc, addr = self.server.accept()            # Wait for a client connection
 
                 print "New connection from : ", addr
-                client_thread = Client(client_id, addr, soc, self.servo)
-                client_thread.start()
-                self.clients.append(client_thread)
+                client_thread = Client(client_id, addr, soc, self.servo)    # Create a new client instance
+                client_thread.start()                                       # Immediately start client thread
+                self.clients.append(client_thread)                          # Add client instance to the clients List
                 client_id += 1
 
             self.close()
@@ -66,9 +69,9 @@ class Server(threading.Thread):
         except KeyboardInterrupt:
             self.close()
 
-####################
-#!# Main Program #!#
-####################
+########################
+#!# Run Main Program #!#
+########################
 
 if __name__ == "__main__":
     server = Server()
