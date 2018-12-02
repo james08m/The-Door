@@ -25,21 +25,21 @@
 
 
 class Protocol():
-    def __init__(self):
-        ## ACTIONS
-        self.CONNECT 	= "!1"
-        self.DISCONNECT = "!2"
-        self.IDLE 		= "!3"
-        self.PSH 		= "!4"
-        self.RST 		= "!5"
+    ## ACTIONS
+    CONNECT 	= "!1"
+    DISCONNECT = "!2"
+    IDLE 		= "!3"
+    PSH 		= "!4"
+    RST 		= "!5"
 
-        ## STATUS
-        self.ACK 	= "?1"
-        self.DENY 	= "?2"
-        self.IGN 	= "?3"
-        self.ERR 	= "?4"
-
-    def toString(self, cmd):
+    ## STATUS
+    ACK 	= "?1"
+    DENY 	= "?2"
+    IGN 	= "?3"
+    ERR 	= "?4"
+    
+    @staticmethod
+    def CONVERT(cmd):
         if cmd[0] == '!':  # COMMAND
             if cmd[1] == '1':
                 return "CONNECT"
@@ -73,14 +73,25 @@ class Protocol():
 
 if __name__ == "__main__":
 
-	PROTOCOL = Protocol()
-	print PROTOCOL.toString("!1")
-	print PROTOCOL.toString("!2")
-	print PROTOCOL.toString("!3")
-	print PROTOCOL.toString("!4")
-	print PROTOCOL.toString("!5")
+	print Protocol().CONVERT("!1")
+	print Protocol().CONVERT("!2")
+	print Protocol().CONVERT("!3")
+	print Protocol().CONVERT("!4")
+	print Protocol().CONVERT("!5")
+	print "\n"
+	print Protocol().CONVERT("?1")
+	print Protocol().CONVERT("?2")
+	print Protocol().CONVERT("?3")
+	print Protocol().CONVERT("?4")
+	print "\n"
+	print Protocol().CONNECT
+	print Protocol().DISCONNECT
+	print Protocol().IDLE
+	print Protocol().PSH
+	print Protocol().RST
 	print "\r"
-	print PROTOCOL.toString("?1")
-	print PROTOCOL.toString("?2")
-	print PROTOCOL.toString("?3")
-	print PROTOCOL.toString("?4")
+	print Protocol().ACK
+	print Protocol().DENY
+	print Protocol().IGN
+	print Protocol().ERR
+
