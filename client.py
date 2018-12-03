@@ -29,13 +29,18 @@ class Client(threading.Thread):
         self.servo = servo
         self.badquery = 0
 
+    # Overloading 'str' method build in python Object
+    # This method is called when we want to print a client 
+    def __str__(self):
+        return str(self.id)
+        
     # Terminate the thread instance
     def close(self):
         self.alive = False
 
     # Return a string of informations about the client.
     # Give the client IP address, port and id on the server
-    def info(self):
+    def get_info(self):
         info = str(self.ip) + ":" + str(self.port) + " id=" + str(self.id)
         return info
 
