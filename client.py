@@ -29,8 +29,27 @@ class Client(threading.Thread):
         self.servo = servo
         self.badquery = 0
 
-    # Overloading 'str' method build in python Object
-    # This method is called when we want to print a client 
+    # Overloading operator <
+    def __lt__(self, other):
+        return self.id < other.id
+    # Overloading operator <=
+    def __le__(self, other):
+        return self.id <= other.id
+    # Overloading operator ==
+    def __eq__(self, other):
+        return self.id == other.id
+    # Overloading operator !=
+    def __ne__(self, other):
+        return self.id != other.id
+    # Overloading operator >
+    def __gt__(self, other):
+        return self.id > other.id
+    # Overloading operator >=
+    def __ge__(self, other):
+        return self.id >= other.id
+
+    # Overloading __str__ buildin python Object
+    # This method is called when when printing client 
     def __str__(self):
         return str(self.id)
         
