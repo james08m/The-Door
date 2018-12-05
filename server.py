@@ -29,7 +29,6 @@ class Server(threading.Thread):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = []                           # Initialize clients List
         self.servo = Servo()
-        self.servo.sleep()                          # Set the servo motor in sleep mode
 
         self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
         self.server.listen(1)                       # Socket start listening

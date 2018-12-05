@@ -21,6 +21,7 @@ class Servo():
 
         self.pwm = GPIO.PWM(self.pin, self.freq)
         self.pwm.start(self.dc)
+        time.sleep(1)                               # Wait to make sure motor goes into initial position
         self.sleep()                                # Set servo motor in sleep mode
 
     # Method bounded to class that change __busy value
