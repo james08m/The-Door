@@ -54,16 +54,16 @@ class Server(threading.Thread):
         print "Server started"
         print "Waiting for connections.."
         try:
-            client_id = 0                           # Next client ID to be assign
             while self.alive:
 
                 soc, addr = self.server.accept()            # Wait for a client connection
 
                 print "New connection from : ", addr
+                client_id = len(self.clients)
                 client_thread = Client(client_id, addr, soc, self.servo)    # Create a new client instance
                 client_thread.start()                                       # Immediately start client thread
                 self.clients.append(client_thread)                          # Add client instance to the clients List
-                client_id += 1
+                self.clients[client_id].start()                             # Immediately start client thread
 
             self.close()
 
