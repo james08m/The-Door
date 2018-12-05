@@ -29,6 +29,7 @@ class Server(threading.Thread):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = []                           # Initialize clients List
         self.servo = Servo()
+        self.servo.sleep()                          # Set the servo motor in sleep mode
 
         self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
         self.server.listen(1)                       # Socket start listening
@@ -61,7 +62,6 @@ class Server(threading.Thread):
                 print "New connection from : ", addr
                 client_id = len(self.clients)
                 client_thread = Client(client_id, addr, soc, self.servo)    # Create a new client instance
-                client_thread.start()                                       # Immediately start client thread
                 self.clients.append(client_thread)                          # Add client instance to the clients List
                 self.clients[client_id].start()                             # Immediately start client thread
 

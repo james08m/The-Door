@@ -21,6 +21,7 @@ class Servo():
 
         self.pwm = GPIO.PWM(self.pin, self.freq)
         self.pwm.start(self.dc)
+        self.sleep()                                # Set servo motor in sleep mode
 
     # Method bounded to class that change __busy value
     @classmethod
@@ -46,6 +47,9 @@ class Servo():
     def close(self):
         self.pwm.stop()                 # Stop servo motor
         GPIO.cleanup()                  # Cleanup GPIO pin
+
+    def sleep(self):
+        self.pwm.ChangeDutyCycle(0)   # Set duty cycle to 0
 
     # Method that place motor in pushed position
     def push(self):
