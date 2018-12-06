@@ -24,20 +24,20 @@
 ## Server > !1?1	(Server acknowledge client request)
 
 
-class Protocol():
+class PROTOCOL():
     ## ACTIONS
-    CONNECT 	= "!1"
+    CONNECT = "!1"
     DISCONNECT = "!2"
-    IDLE 		= "!3"
-    PSH 		= "!4"
-    RST 		= "!5"
+    IDLE = "!3"
+    PSH = "!4"
+    RST = "!5"
 
     ## STATUS
-    ACK 	= "?1"
-    DENY 	= "?2"
-    IGN 	= "?3"
-    ERR 	= "?4"
-    
+    ACK = "?1"
+    DENY = "?2"
+    IGN = "?3"
+    ERR = "?4"
+
     @staticmethod
     def CONVERT(cmd):
         if cmd[0] == '!':  # COMMAND
@@ -67,31 +67,30 @@ class Protocol():
         else:
             return "0"
 
+
 ########################
 #!# Run Main Program #!#
 ########################
 
 if __name__ == "__main__":
-
-	print Protocol().CONVERT("!1")
-	print Protocol().CONVERT("!2")
-	print Protocol().CONVERT("!3")
-	print Protocol().CONVERT("!4")
-	print Protocol().CONVERT("!5")
-	print "\n"
-	print Protocol().CONVERT("?1")
-	print Protocol().CONVERT("?2")
-	print Protocol().CONVERT("?3")
-	print Protocol().CONVERT("?4")
-	print "\n"
-	print Protocol().CONNECT
-	print Protocol().DISCONNECT
-	print Protocol().IDLE
-	print Protocol().PSH
-	print Protocol().RST
-	print "\r"
-	print Protocol().ACK
-	print Protocol().DENY
-	print Protocol().IGN
-	print Protocol().ERR
-
+    print PROTOCOL().CONVERT("!1")
+    print PROTOCOL().CONVERT("!2")
+    print PROTOCOL().CONVERT("!3")
+    print PROTOCOL().CONVERT("!4")
+    print PROTOCOL().CONVERT("!5")
+    print "\n"
+    print PROTOCOL().CONVERT("?1")
+    print PROTOCOL().CONVERT("?2")
+    print PROTOCOL().CONVERT("?3")
+    print PROTOCOL().CONVERT("?4")
+    print "\n"
+    print PROTOCOL().CONNECT
+    print PROTOCOL().DISCONNECT
+    print PROTOCOL().IDLE
+    print PROTOCOL().PSH
+    print PROTOCOL().RST
+    print "\n"
+    print PROTOCOL().ACK
+    print PROTOCOL().DENY
+    print PROTOCOL().IGN
+    print PROTOCOL().ERR

@@ -2,9 +2,6 @@
 
 import socket
 import threading
-import time
-
-from servo import *
 
 BUFFER_SIZE = 50        # Usually 1024, but we want a fast response time
 BAD_QUERY_LIMIT = 5     # Limit of bad queries tolerated
@@ -32,18 +29,23 @@ class Client(threading.Thread):
     # Overloading operator <
     def __lt__(self, other):
         return self.id < other.id
+
     # Overloading operator <=
     def __le__(self, other):
         return self.id <= other.id
+
     # Overloading operator ==
     def __eq__(self, other):
         return self.id == other.id
+
     # Overloading operator !=
     def __ne__(self, other):
         return self.id != other.id
+
     # Overloading operator >
     def __gt__(self, other):
         return self.id > other.id
+
     # Overloading operator >=
     def __ge__(self, other):
         return self.id >= other.id
@@ -73,7 +75,7 @@ class Client(threading.Thread):
 
                 data = self.socket.recv(BUFFER_SIZE)    # Receiving client data from socket
 
-                # Empty data automatically terminate the client
+                # Empty data terminate the client thread. Usually received when client close the connection
                 if data == "":
                     self.close()
 
@@ -114,7 +116,7 @@ class Client(threading.Thread):
                         self.close()
                     
             except socket.error as e:                   # When Socket exception is raised
-                print e
+                print "[!] " + self.get_info() + " | " + e
                 
         self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
         self.socket.close()                         # Close client socket
