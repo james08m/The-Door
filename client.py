@@ -80,7 +80,7 @@ class Client(threading.Thread):
                 # Client request access to servo motor
                 elif data == "CONNECT":
 
-                    print self.info() + " | CONNECT"
+                    print self.get_info() + " | CONNECT"
                     self.socket.send("CONNECT ACK")         # Acknowledge to client
                     self.auth = True                        # Set authorization to True
 
@@ -88,7 +88,7 @@ class Client(threading.Thread):
                 elif data == "IDLE":
 
                     if self.auth:
-                        print self.info() + " | IDLE"
+                        print self.get_info() + " | IDLE"
                         self.socket.send("IDLE ACK")        # Acknowledge to client
                         self.servo.idle()
                     else:
@@ -98,14 +98,14 @@ class Client(threading.Thread):
                 elif data == "PSH":
 
                     if self.auth:
-                        print self.info() + " | PSH"
+                        print self.get_info() + " | PSH"
                         self.socket.send("PSH ACK")         # Acknowledge to client
                         self.servo.push()
                     else:
                         self.socket.send("PSH DENIED")      # Deny client
 
                 else:
-                    print self.info() + " | QUERY IGNORED"  # After too much bad queries connection is stopped
+                    print self.get_info() + " | QUERY IGNORED"  # After too much bad queries connection is stopped
                     self.badquery += 1
                     self.socket.send("QUERY IGNORED")       # Tell client that query was ignored
                     
@@ -118,6 +118,6 @@ class Client(threading.Thread):
                 
         self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
         self.socket.close()                         # Close client socket
-        print "[!] " + self.info() + " | CLOSED"
+        print "[!] " + self.get_info() + " | CLOSED"
 
 
