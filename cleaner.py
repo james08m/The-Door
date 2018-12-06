@@ -7,6 +7,7 @@ import time
 #!# Cleaner : threading.Thread #!#
 ##################################
 
+
 class Cleaner(threading.Thread):
 
     # Properly initialize server cleaner by initializing
@@ -21,8 +22,28 @@ class Cleaner(threading.Thread):
     # This method is actually the server
     # cleaner thread life cycle
     def run(self):
+        print "Cleaner started."
         while self.alive:
-            for client in self.clients:          # Go through all clients in List
-                if not client.alive:             # If the client thread is not alive
-                    self.clients.remove(client)  # Remove client from clients List
             time.sleep(60)  # Wait 1 minute
+
+            if self.alive:      # Make sure cleaner wasn't closed while sleep
+                self.remove()   # Remove closed client from List
+                self.display()  # Display alive clients info
+
+    def close(self):
+        self.alive = False
+        print "Cleaner closed"
+
+    def remove(self):
+        for client in self.clients:          # Go through all clients in List
+            if not client.alive:             # If the client thread is not alive
+                print "Removing client : ", client.get_info()
+                self.clients.remove(client)  # Remove client from clients List
+
+    def kill(self):
+        for client in self.clients:
+            client.close()
+
+    def display(self):
+        for client in self.clients:
+            print client.get_info()

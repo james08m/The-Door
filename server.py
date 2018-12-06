@@ -1,11 +1,8 @@
 #! /usr/bin/env/ python
 
-import socket
-import threading
-import time
-
 from servo import *
 from client import *
+from cleaner import *
 
 BUFFER_SIZE     = 50                # Usually 1024, but we want a fast response time
 SERVER_IP       = '192.168.10.200'  # IP statically assigned to my Raspberry Pi on the LAN
@@ -28,21 +25,21 @@ class Server(threading.Thread):
         self.port = SERVER_PORT
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = []                           # Initialize clients List
+        self.cleaner = Cleaner(self.clients)        # Initialize server client cleaner
         self.servo = Servo()
 
         self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
-        self.server.listen(1)                       # Socket start listening
 
     # Safely close the server
     def close(self):
         print "\rClosing server.."
-        self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
+        self.servo.idle()                           # Put back servo motor in idle position for security reason ;)
         self.servo.close()                          # Properly close the servo motor instance
 
-        for client in self.clients:                 # Kill clients threads
-            client.close()
+        self.cleaner.kill()                         # Kill clients threads
+        self.cleaner.close()                        # Close cleaner thread
 
-        time.sleep(2)                               # Wait 2sec to make sure clients thread are closed
+        time.sleep(1)                               # Wait 1sec to make sure clients thread are closed
         self.server.close()
         print "Server closed."
 
@@ -51,6 +48,11 @@ class Server(threading.Thread):
     # This method is actually the server's
     # thread life cycle
     def run(self):
+        print "Starting server.."
+
+        self.server.listen(1)  # Start listening
+        self.cleaner.start()   # Start client cleaner thread
+
         print "Server started."
         print "Waiting for connections.."
         try:
