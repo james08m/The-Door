@@ -24,6 +24,7 @@
 ## Server > !1?1	(Server acknowledge client request)
 
 
+# Not implemented in the server yet...
 class PROTOCOL():
     ## ACTIONS
     CONNECT = "!1"
