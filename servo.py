@@ -48,6 +48,7 @@ class Servo():
     def close(self):
         self.pwm.stop()                 # Stop servo motor
         GPIO.cleanup()                  # Cleanup GPIO pin
+        print "Servo motor stopped and GPIO pins cleaned."
 
     def sleep(self):
         self.pwm.ChangeDutyCycle(0)   # Set duty cycle to 0

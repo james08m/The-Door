@@ -44,14 +44,14 @@ class Server(threading.Thread):
 
         time.sleep(2)                               # Wait 2sec to make sure clients thread are closed
         self.server.close()
-        print "Server closed"
+        print "Server closed."
 
     # Redefinition of the run() method from
     # the parent class "threading.Thread".
     # This method is actually the server's
     # thread life cycle
     def run(self):
-        print "Server started"
+        print "Server started."
         print "Waiting for connections.."
         try:
             while self.alive:
