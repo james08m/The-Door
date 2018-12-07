@@ -31,6 +31,7 @@ class Cleaner(threading.Thread):
                 self.display()  # Display alive clients info
 
     def close(self):
+        print "Closing cleaner"
         self.alive = False
 
     def remove(self):
