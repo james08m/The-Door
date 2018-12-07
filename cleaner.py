@@ -35,14 +35,15 @@ class Cleaner(threading.Thread):
         print "Cleaner closed"
 
     def remove(self):
-        to_remove = []
-        for client in self.clients:          # Go through all clients in List
+        to_remove = []                       # Put a client to remove in this list.
+
+        for client in self.clients:          # Go through all clients' in List
             if not client.alive:             # If the client thread is not alive
-                print "Removing client : ", client.get_info()
                 to_remove.append(client)
 
-        for client in to_remove:
-            self.clients.remove(client)  # Remove client from clients List
+        for client in to_remove:             # Remove not alive clients found
+            print "Removing ", client.get_info()
+            self.clients.remove(client)      # Remove clients from clients' List
 
     def kill(self):
         for client in self.clients:
