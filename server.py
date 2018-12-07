@@ -36,10 +36,11 @@ class Server(threading.Thread):
         self.servo.idle()                           # Put back servo motor in idle position for security reason ;)
         self.servo.close()                          # Properly close the servo motor instance
 
-        self.cleaner.kill()                         # Kill clients threads
-        self.cleaner.close()                        # Close cleaner thread
+        self.cleaner.close()                        # Stop server cleaner thread
+        self.cleaner.join()                         # Wait that the cleaner thread end
+        self.cleaner.kill()                         # Kill remaining clients threads
+        print "Cleaner closed."
 
-        time.sleep(1)                               # Wait 1sec to make sure clients thread are closed
         self.server.close()
         print "Server closed."
 
@@ -52,6 +53,7 @@ class Server(threading.Thread):
 
         self.server.listen(1)  # Start listening
         self.cleaner.start()   # Start client cleaner thread
+        time.sleep(0.5)        # Wait half a second to le thread print message
 
         print "Server started."
         print "Waiting for connections.."

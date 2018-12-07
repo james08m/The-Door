@@ -32,7 +32,6 @@ class Cleaner(threading.Thread):
 
     def close(self):
         self.alive = False
-        print "Cleaner closed"
 
     def remove(self):
         to_remove = []                       # Put a client to remove in this list.
