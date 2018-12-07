@@ -24,7 +24,7 @@ class Cleaner(threading.Thread):
     def run(self):
         print "Cleaner started."
         while self.alive:
-            time.sleep(60)  # Wait 1 minute
+            time.sleep(30)  # Wait 30sec
 
             if self.alive:      # Make sure cleaner wasn't closed while sleep
                 self.remove()   # Remove closed client from List
@@ -35,10 +35,14 @@ class Cleaner(threading.Thread):
         print "Cleaner closed"
 
     def remove(self):
+        to_remove = []
         for client in self.clients:          # Go through all clients in List
             if not client.alive:             # If the client thread is not alive
                 print "Removing client : ", client.get_info()
-                self.clients.remove(client)  # Remove client from clients List
+                to_remove.append(client)
+
+        for client in to_remove:
+            self.clients.remove(client)  # Remove client from clients List
 
     def kill(self):
         for client in self.clients:
