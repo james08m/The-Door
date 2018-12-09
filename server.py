@@ -72,11 +72,3 @@ class Server(threading.Thread):
 
         except KeyboardInterrupt:
             self.close()
-
-########################
-#!# Run Main Program #!#
-########################
-
-if __name__ == "__main__":
-    server = Server()
-    server.run()
