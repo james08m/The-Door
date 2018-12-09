@@ -34,17 +34,17 @@ class Server(threading.Thread):
 
     # Safely close the server
     def close(self):
-        print "\r[i] Closing server.."
+        self.logger.info("Closing server..")
         self.servo.idle()                           # Put back servo motor in idle position for security reason ;)
         self.servo.close()                          # Properly close the servo motor instance
 
         self.cleaner.close()                        # Stop server cleaner thread
         self.cleaner.join()                         # Wait that the cleaner thread end
         self.cleaner.kill()                         # Kill remaining clients threads
-        print "[i] Cleaner closed."
+        self.logger.info("Cleaner closed")
 
         self.server.close()
-        print "[i] Server closed."
+        self.logger.info("Server closed")
 
     # Redefinition of the run() method from
     # the parent class "threading.Thread".
@@ -57,14 +57,14 @@ class Server(threading.Thread):
         self.cleaner.start()   # Start client cleaner thread
         time.sleep(0.5)        # Wait half a second to le thread print message
 
-        print "[i] Server started."
-        print "[i] Waiting for connections.."
+        self.logger.info("Server started")
+        self.logger.info("Waiting for connections..")
         try:
             while self.alive:
 
                 soc, addr = self.server.accept()            # Wait for a client connection
 
-                print "[i] New connection from : ", addr
+                self.logger.info("New connection from : {}".format(addr))
                 client_id = len(self.clients)
                 client_thread = Client(client_id, addr, soc, self.servo)    # Create a new client instance
                 self.clients.append(client_thread)                          # Add client instance to the clients List
