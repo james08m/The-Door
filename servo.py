@@ -11,7 +11,7 @@ class Servo():
 
     # Initialise servo motor
     def __init__(self):
-        print("Servo motor initialisation..")
+        print "[i] Servo motor initialisation.."
         self.pin = 17                               # Set GPIO pin to 17
         self.freq = 50                              # Set frequency of 50hz
         self.dc = 10.5                              # Set initial duty cycle to 10.5
@@ -48,7 +48,7 @@ class Servo():
     def close(self):
         self.pwm.stop()                 # Stop servo motor
         GPIO.cleanup()                  # Cleanup GPIO pin
-        print "Servo motor stopped and GPIO pins cleaned."
+        print "[i] Servo motor stopped and GPIO pins cleaned."
 
     def sleep(self):
         self.pwm.ChangeDutyCycle(0)   # Set duty cycle to 0
@@ -62,9 +62,9 @@ class Servo():
                 Servo.setpushed(True)           # Set Servo Class attribute __pushed to true
                 Servo.setbusy(False)            # Set Servo Class to not busy
             else:
-                print("Servo motor already in pushed position.")
+                print "[w] Servo motor already in pushed position."
         else:
-            print("Servo motor is busy.")
+            print "[w]  Servo motor is busy."
 
     # Method that place motor in pushed position
     def idle(self):
@@ -75,13 +75,13 @@ class Servo():
                 Servo.setpushed(False)          # Set Servo Class attribute __pushed to False
                 Servo.setbusy(False)            # Set Servo Class to not bus
             else:
-                print("Servo motor already in released position.")
+                print("[w] Servo motor already in released position.")
         else:
-            print("Servo motor is busy.")
+            print("[w] Servo motor is busy.")
 
     # Small test program to test servo motor
     def test(self):
-        print("Starting test program..")
+        print "[i] Starting test program.."
         try:
             while True:
                 self.push()
