@@ -1,5 +1,6 @@
 #! /usr/bin/env/ python
 
+import logging
 import threading
 import time
 
