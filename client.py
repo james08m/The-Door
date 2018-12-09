@@ -82,7 +82,7 @@ class Client(threading.Thread):
                 # Client request access to servo motor
                 elif data == "CONNECT":
 
-                    print self.get_info() + " | CONNECT"
+                    print "[w] " + self.get_info() + " | CONNECT"
                     self.socket.send("CONNECT ACK")         # Acknowledge to client
                     self.auth = True                        # Set authorization to True
 
@@ -90,7 +90,7 @@ class Client(threading.Thread):
                 elif data == "IDLE":
 
                     if self.auth:
-                        print self.get_info() + " | IDLE"
+                        print "[w] " + self.get_info() + " | IDLE"
                         self.socket.send("IDLE ACK")        # Acknowledge to client
                         self.servo.idle()
                     else:
@@ -100,14 +100,14 @@ class Client(threading.Thread):
                 elif data == "PSH":
 
                     if self.auth:
-                        print self.get_info() + " | PSH"
+                        print "[w] " + self.get_info() + " | PSH"
                         self.socket.send("PSH ACK")         # Acknowledge to client
                         self.servo.push()
                     else:
                         self.socket.send("PSH DENIED")      # Deny client
 
                 else:
-                    print self.get_info() + " | QUERY IGNORED"  # After too much bad queries connection is stopped
+                    print "[w] " + self.get_info() + " | QUERY IGNORED"  # After too much bad queries connection is stopped
                     self.badquery += 1
                     self.socket.send("QUERY IGNORED")       # Tell client that query was ignored
                     
@@ -116,10 +116,10 @@ class Client(threading.Thread):
                         self.close()
                     
             except socket.error as e:                   # When Socket exception is raised
-                print "[!] " + self.get_info() + " | " + e
+                print "[e] " + self.get_info() + " | " + e
                 
         self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
         self.socket.close()                         # Close client socket
-        print "[!] " + self.get_info() + " | CLOSED"
+        print "[w] " + self.get_info() + " | CLOSED"
 
 
