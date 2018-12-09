@@ -28,7 +28,7 @@ class Server(threading.Thread):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = []                           # Initialize clients List
         self.cleaner = Cleaner(self.clients)        # Initialize server client cleaner
-        self.servo = Servo()
+        self.servo = Servo(self.logger)
 
         self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
 
