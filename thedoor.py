@@ -10,13 +10,13 @@ from server import *
 if __name__ == "__main__":
 
     date = datetime.datetime.now()
-    file_path = "log/{}".format(date.strftime("%Y-%m-%d"))
+    file_path = "log/{}{}".format(date.strftime("%Y-%m-%d"), ".log")
 
     # Uses %(<dictionary key>)s styled string substitution; the possible keys are documented in LogRecord attributes.
-    log_format = "%(asctime)s\t%(name)s\t%(levelname)s\t\t%(message)s"
+    log_format = "[ %(asctime)s ]\t[ %(levelname)s ]\t%(message)s"
 
     # Create logger Object
-    logger = logging.getLogger("the_door_log")
+    logger = logging.getLogger("log")
     logging.basicConfig(format=log_format,
                         filename=file_path)  # Pass the filename and the log strings format used in file logs
     logger.setLevel(logging.DEBUG)  # Set logging level to DEBUG
@@ -34,9 +34,9 @@ if __name__ == "__main__":
     # Add the console handler to logger
     logger.addHandler(console_handler)
 
-    logger.info("Log opened")
+    logger.debug("Log opened")
 
-    server = Server()
+    server = Server(logger)
     server.run()
 
-    logger.info("Log closed")
+    logger.debug("Log closed")

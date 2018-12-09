@@ -17,9 +17,11 @@ class Server(threading.Thread):
     # Properly initialize server by initializing
     # the parent thread and by initializing
     # the server socket with the right information
-    def __init__(self):
+    def __init__(self, logger):
 
         threading.Thread.__init__(self)
+        #self.logger = logging.getLogger("log")
+        self.logger = logger
         self.alive = True
         self.ip = SERVER_IP
         self.port = SERVER_PORT
@@ -49,7 +51,7 @@ class Server(threading.Thread):
     # This method is actually the server's
     # thread life cycle
     def run(self):
-        print "[i] Starting server.."
+        self.logger.info("Starting server")
 
         self.server.listen(1)  # Start listening
         self.cleaner.start()   # Start client cleaner thread
