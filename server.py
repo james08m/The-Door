@@ -20,14 +20,13 @@ class Server(threading.Thread):
     def __init__(self, logger):
 
         threading.Thread.__init__(self)
-        #self.logger = logging.getLogger("log")
         self.logger = logger
         self.alive = True
         self.ip = SERVER_IP
         self.port = SERVER_PORT
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clients = []                           # Initialize clients List
-        self.cleaner = Cleaner(self.clients)        # Initialize server client cleaner
+        self.cleaner = Cleaner(self.clients, self.logger)        # Initialize server client cleaner
         self.servo = Servo(self.logger)
 
         self.server.bind((self.ip, self.port))      # Bind ip address and port to socket
@@ -66,7 +65,7 @@ class Server(threading.Thread):
 
                 self.logger.info("New connection from : {}".format(addr))
                 client_id = len(self.clients)
-                client_thread = Client(client_id, addr, soc, self.servo)    # Create a new client instance
+                client_thread = Client(client_id, addr, soc, self.servo, self.logger)    # Create a new client instance
                 self.clients.append(client_thread)                          # Add client instance to the clients List
                 self.clients[client_id].start()                             # Immediately start client thread
 

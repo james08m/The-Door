@@ -16,12 +16,13 @@ class Client(threading.Thread):
     # Properly initialize client by initializing
     # the parent thread and by passing all
     # arguments needed to the client
-    def __init__(self, id, addr, socket, servo):
+    def __init__(self, id, addr, socket, servo, logger):
         threading.Thread.__init__(self)
         self.id = id
         self.ip = addr[0]
         self.port = addr[1]
         self.alive = True
+        self.logger = logger
         self.auth = True
         self.socket = socket
         self.servo = servo
@@ -83,7 +84,7 @@ class Client(threading.Thread):
                 # Client request access to servo motor
                 elif data == "CONNECT":
 
-                    print "[w] " + self.get_info() + " | CONNECT"
+                    self.logger.warning("{} | CONNECT".format(self.get_info()))
                     self.socket.send("CONNECT ACK")         # Acknowledge to client
                     self.auth = True                        # Set authorization to True
 
@@ -91,7 +92,7 @@ class Client(threading.Thread):
                 elif data == "IDLE":
 
                     if self.auth:
-                        print "[w] " + self.get_info() + " | IDLE"
+                        self.logger.warning("{} | IDLE".format(self.get_info()))
                         self.socket.send("IDLE ACK")        # Acknowledge to client
                         self.servo.idle()
                     else:
@@ -101,14 +102,14 @@ class Client(threading.Thread):
                 elif data == "PSH":
 
                     if self.auth:
-                        print "[w] " + self.get_info() + " | PSH"
+                        self.logger.warning("{} | PSH".format(self.get_info()))
                         self.socket.send("PSH ACK")         # Acknowledge to client
                         self.servo.push()
                     else:
                         self.socket.send("PSH DENIED")      # Deny client
 
                 else:
-                    print "[w] " + self.get_info() + " | QUERY IGNORED"  # After too much bad queries connection is stopped
+                    self.logger.warning("{} | QUERY IGNORED".format(self.get_info()))  # After too much bad queries connection is stopped
                     self.badquery += 1
                     self.socket.send("QUERY IGNORED")       # Tell client that query was ignored
                     
@@ -117,10 +118,10 @@ class Client(threading.Thread):
                         self.close()
                     
             except socket.error as e:                   # When Socket exception is raised
-                print "[e] " + self.get_info() + " | " + e
+                print self.logger.error("{} | {}".format(self.get_info(), e))
                 
         self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
         self.socket.close()                         # Close client socket
-        print "[w] " + self.get_info() + " | CLOSED"
+        self.logger.warning("{} | CLOSED".format(self.get_info()))
 
 
