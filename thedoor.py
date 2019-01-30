@@ -10,7 +10,7 @@ from server import *
 if __name__ == "__main__":
 
     date = datetime.datetime.now()
-    file_path = "log/{}{}".format(date.strftime("%Y-%m-%d"), ".log")
+    file_path = "/opt/the-door/log/{}{}".format(date.strftime("%Y-%m-%d"), ".log")
 
     # Uses %(<dictionary key>)s styled string substitution; the possible keys are documented in LogRecord attributes.
     log_format = "[ %(asctime)s ]\t[ %(levelname)s ]\t%(message)s"
