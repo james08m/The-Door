@@ -84,7 +84,7 @@ class Client(threading.Thread):
                 # Client request access to servo motor
                 elif data == "CONNECT":
 
-                    self.logger.warning("{} | CONNECT".format(self.get_info()))
+                    self.logger.info("{} | CONNECT".format(self.get_info()))
                     self.socket.send("CONNECT ACK")         # Acknowledge to client
                     self.auth = True                        # Set authorization to True
 
@@ -92,7 +92,7 @@ class Client(threading.Thread):
                 elif data == "IDLE":
 
                     if self.auth:
-                        self.logger.warning("{} | IDLE".format(self.get_info()))
+                        self.logger.info("{} | IDLE".format(self.get_info()))
                         self.socket.send("IDLE ACK")        # Acknowledge to client
                         self.servo.idle()
                     else:
@@ -102,7 +102,7 @@ class Client(threading.Thread):
                 elif data == "PSH":
 
                     if self.auth:
-                        self.logger.warning("{} | PSH".format(self.get_info()))
+                        self.logger.info("{} | PSH".format(self.get_info()))
                         self.socket.send("PSH ACK")         # Acknowledge to client
                         self.servo.push()
                     else:
