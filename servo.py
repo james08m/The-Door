@@ -2,9 +2,20 @@ import RPi.GPIO as GPIO
 import time
 import logging
 
-###############
-#!#  Servo  #!#
-###############
+###################################################################
+## Class Name: Servo
+## Parent: N/A
+## Input(s): logger
+## Description: The Servo class is the interface between the
+##              servo motor and the Raspberry Pi. In this
+##              project a Servo object is instantiate in the
+##              Server class and a reference is passed to every
+##              client objects created by the server.  It is
+##              important that only one servo obejct exist at the
+##              time and that every body use the same instance to
+##              avoid any access conflict.
+## Notes:
+###################################################################
 
 class Servo():
     __busy = False          # Attribute bounded to class

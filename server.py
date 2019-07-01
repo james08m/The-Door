@@ -8,9 +8,19 @@ BUFFER_SIZE     = 50                # Usually 1024, but we want a fast response 
 SERVER_IP       = '192.168.10.200'  # IP statically assigned to my Raspberry Pi on the LAN
 SERVER_PORT     = 5340
 
-##################################
-#!#  Server : threading.Thread #!#
-##################################
+###################################################################
+## Class Name: Servo
+## Parent : threading.Thread
+## Input(s): logger
+## Description: The Server class is the core class of this project.
+##              This class wait and accept new clients connexion
+##              and act as an in between for the servo moteur and
+##              the clients. It is also passing the logger to the
+##              motor and every clients to make sure all information
+##              are recorded at the same place.
+##
+## Notes:
+###################################################################
 
 class Server(threading.Thread):
 
@@ -47,7 +57,7 @@ class Server(threading.Thread):
 
     # Redefinition of the run() method from
     # the parent class "threading.Thread".
-    # This method is actually the server's
+    # This method is the server's
     # thread life cycle
     def run(self):
         self.logger.info("Starting server")

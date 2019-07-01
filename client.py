@@ -7,9 +7,20 @@ import threading
 BUFFER_SIZE = 50        # Usually 1024, but we want a fast response time
 BAD_QUERY_LIMIT = 5     # Limit of bad queries tolerated
 
-##################################
-#!#  Client : threading.Thread #!#
-##################################
+###################################################################
+## Class Name: Client
+## Parent : threading.Thread
+## Input(s): id, address(IP+PORT), socket, servo and logger
+## Description: The Client class purpose is to handle every clients
+##              interactions with the server. Every time a client
+##              connexion is made. The server instantiate a client
+##              object, lunch the client thread and store it into a
+##              list. Every active client thread is listening on
+##              the socket for datas and process it like it should.
+##
+## Notes: This is where clients command and executed depending of
+##        servo motor status.
+###################################################################
 
 class Client(threading.Thread):
 
@@ -69,7 +80,7 @@ class Client(threading.Thread):
 
     # Redefinition of the run() method from
     # the parent class "threading.Thread".
-    # This method is actually the client's
+    # This method is the client's
     # thread life cycle
     def run(self):
         while self.alive:
@@ -120,7 +131,7 @@ class Client(threading.Thread):
             except socket.error as e:                   # When Socket exception is raised
                 print self.logger.error("{} | {}".format(self.get_info(), e))
                 
-        self.servo.idle()                           # Put back servor motor in idle position for security reason ;)
+        self.servo.idle()                           # Put back servo motor in idle position for security purposes
         self.socket.close()                         # Close client socket
         self.logger.warning("{} | CLOSED".format(self.get_info()))
 
