@@ -9,6 +9,7 @@ from server import *
 
 if __name__ == "__main__":
 
+    # Get actual date and set path and file name for the log
     date = datetime.datetime.now()
     file_path = "/opt/the-door/log/{}{}".format(date.strftime("%Y-%m-%d"), ".log")
 
