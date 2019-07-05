@@ -9,7 +9,7 @@ SERVER_IP       = '192.168.10.200'  # IP statically assigned to my Raspberry Pi 
 SERVER_PORT     = 5340
 
 ###################################################################
-## Class Name: Servo
+## Class Name: Server
 ## Parent : threading.Thread
 ## Input(s): logger
 ## Description: The Server class is the core class of this project.
