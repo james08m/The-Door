@@ -1,4 +1,4 @@
-# The Door
+# The Door __[PAUSED/FINISHED]__
 
 The Door is a __Raspberry Pi__ based project mainly developed in __Python__.
 
